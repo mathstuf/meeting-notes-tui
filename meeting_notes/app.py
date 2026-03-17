@@ -5,6 +5,7 @@ import sys
 import time
 import subprocess
 import os
+import multiprocessing.resource_tracker
 from pathlib import Path
 from datetime import datetime
 from typing import Optional
@@ -714,7 +715,17 @@ class MeetingNotesApp(App):
         logger.info("Initializing Meeting Notes app")
         logger.info(f"Config: {self.config.to_safe_dict()}")
         logger.debug(f"Dev mode: {self.dev_mode}")
-        
+
+        # Pre-initialize the multiprocessing resource tracker while the fd
+        # table is still clean.  Whisper's tqdm progress bars create an
+        # mp.RLock whose resource-tracker launch later fails with
+        # "bad value(s) in fds_to_keep" if recording sub-processes have
+        # left stale pipe fds around.
+        try:
+            multiprocessing.resource_tracker.ensure_running()
+        except Exception:
+            pass  # Non-critical, best effort
+
         self.title = "Meeting Notes"
         self.sub_title = "Keyboard-driven meeting recorder"
         self.load_meetings()
