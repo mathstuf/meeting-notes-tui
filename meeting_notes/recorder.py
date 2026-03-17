@@ -107,9 +107,7 @@ class AudioRecorder:
             ]
         
         self.process = subprocess.Popen(
-            cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
+            cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
         
         return str(self.current_file)
@@ -145,9 +143,7 @@ class AudioRecorder:
             ]
         
         self.mic_process = subprocess.Popen(
-            mic_cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
+            mic_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
         
         # Start system audio recording
@@ -177,9 +173,7 @@ class AudioRecorder:
             system_cmd = parec_cmd_parts
         
         self.system_process = subprocess.Popen(
-            system_cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
+            system_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
         
         # Small delay to ensure both started
