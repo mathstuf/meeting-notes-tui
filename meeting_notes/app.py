@@ -684,7 +684,7 @@ class MeetingNotesApp(App):
             ai_model=self.config.ai_model,
             api_key=api_key
         )
-        self.notes_dir = Path(self.config.notes_dir)
+        self.notes_dir = Path(self.config.notes_dir).expanduser()
         self.notes_dir.mkdir(exist_ok=True)
         self.is_recording = False
         self.timer_interval = None
@@ -1525,7 +1525,7 @@ class MeetingNotesApp(App):
                 ai_model=self.config.ai_model,
                 api_key=api_key
             )
-            self.notes_dir = Path(self.config.notes_dir)
+            self.notes_dir = Path(self.config.notes_dir).expanduser()
             self.notes_dir.mkdir(exist_ok=True)
             
             # Reinitialize recorder if not currently recording
