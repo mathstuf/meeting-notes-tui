@@ -1502,7 +1502,7 @@ class MeetingNotesApp(App):
                                 break
                 
                 if transcript_filename:
-                    transcript_path = Path(self.config.transcripts_dir) / transcript_filename
+                    transcript_path = Path(self.config.transcripts_dir).expanduser() / transcript_filename
                     
                     if transcript_path.exists():
                         self.push_screen(TranscriptViewer(transcript_path))
